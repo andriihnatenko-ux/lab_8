@@ -1,14 +1,22 @@
-/** @typedef {import('./normalize.js').Show} Show */
-
 /**
- * C3. Повертає новий масив серіалів, відсортований за полем `key`.
- * Специфікація — ТЗ, C3.
- *
- * @param {Show[]} shows
- * @param {'name' | 'year' | 'rating'} key
- * @param {'asc' | 'desc'} [direction]
- * @returns {Show[]}
+ * C3. Сортування серіалів.
  */
-export function sortShows(shows, key, direction = 'asc') {
-  throw new Error('Not implemented');
+export function sortShows(shows, sortBy, direction = 'asc') {
+  return [...shows].sort((a, b) => {
+    const valA = a[sortBy];
+    const valB = b[sortBy];
+
+    if (valA === null && valB === null) return 0;
+    if (valA === null) return 1;
+    if (valB === null) return -1;
+
+    const dirMultiplier = direction === 'desc' ? -1 : 1;
+
+    if (sortBy === 'name') {
+      return a.name.localeCompare(b.name) * dirMultiplier;
+    }
+
+    if (valA === valB) return 0;
+    return valA < valB ? -1 * dirMultiplier : 1 * dirMultiplier;
+  });
 }
