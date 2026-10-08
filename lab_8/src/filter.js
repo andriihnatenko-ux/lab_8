@@ -1,6 +1,3 @@
-/**
- * C2. Фільтрація серіалів.
- */
 export function filterShows(shows, options = {}) {
   if (!options || Object.keys(options).length === 0) return [...shows];
 
@@ -14,8 +11,8 @@ export function filterShows(shows, options = {}) {
       if (!show.genres.includes(options.genre)) return false;
     }
     
-    if (options.minRating !== undefined && options.minRating !== null && options.minRating !== '') {
-      if (show.rating === null || show.rating < options.minRating) return false;
+    if (options.minRating) {
+      if (show.rating === null || show.rating < Number(options.minRating)) return false;
     }
     
     return true;
