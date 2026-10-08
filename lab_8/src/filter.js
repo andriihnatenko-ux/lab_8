@@ -1,20 +1,23 @@
-/** @typedef {import('./normalize.js').Show} Show */
-
 /**
- * @typedef {object} FilterOptions
- * @property {string | null} [query] частина назви
- * @property {string | null} [genre] жанр
- * @property {number | null} [minRating] мінімальна оцінка
+ * C2. Фільтрація серіалів.
  */
+export function filterShows(shows, options = {}) {
+  if (!options || Object.keys(options).length === 0) return [...shows];
 
-/**
- * C2. Повертає серіали, які відповідають усім заданим фільтрам.
- * Специфікація — ТЗ, C2.
- *
- * @param {Show[]} shows
- * @param {FilterOptions} [options]
- * @returns {Show[]}
- */
-export function filterShows(shows, options) {
-  throw new Error('Not implemented');
+  return shows.filter(show => {
+    if (options.query && options.query.trim() !== '') {
+      const query = options.query.trim().toLowerCase();
+      if (!show.name.toLowerCase().includes(query)) return false;
+    }
+    
+    if (options.genre && options.genre.trim() !== '') {
+      if (!show.genres.includes(options.genre)) return false;
+    }
+    
+    if (options.minRating !== undefined && options.minRating !== null && options.minRating !== '') {
+      if (show.rating === null || show.rating < options.minRating) return false;
+    }
+    
+    return true;
+  });
 }
